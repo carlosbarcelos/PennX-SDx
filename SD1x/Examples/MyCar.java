@@ -2,7 +2,7 @@ package Examples;
 
 import java.util.Calendar;
 
-public class Car {
+public class MyCar {
 	//instance variables
 	String make;
 	String model;
@@ -11,7 +11,7 @@ public class Car {
 	double miles; //miles the car has traveled
 	String owner;
 
-	public Car(String make, String model, int year, boolean isNew, double miles, String owner){
+	public MyCar(String make, String model, int year, boolean isNew, double miles, String owner){
 		this.make = make;
 		this.model = model;
 		this.year = year;

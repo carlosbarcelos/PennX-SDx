@@ -1,4 +1,4 @@
-package Assignments;
+package Assignments.assignment2;
 
 public class Squarelotron  {
 	int [][] squarelotron;
