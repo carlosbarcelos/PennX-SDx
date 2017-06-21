@@ -8,7 +8,7 @@ public class LightCruiser extends Ship {
 	}
 	
 	@Override
-	String getShipType() {
+	public String getShipType() {
 		return "lightcruiser";
 	}
 
