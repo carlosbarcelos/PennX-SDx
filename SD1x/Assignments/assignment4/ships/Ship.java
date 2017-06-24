@@ -12,13 +12,13 @@ public abstract class Ship {
 	public abstract String getShipType();
 
 	/* Returns true if it is okay to put a ship of this length with its bow in this location, with the given orientation, and returns false otherwise. */
-	boolean okToPlaceShip(int row, int column, boolean horizontal, Ocean ocean){	
+	public boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean){	
 		if(horizontal){
 			if(column+length > ocean.BOARD_SIZE){ //ensure ship is not out of bounds
 				return false;
 			}
-			for(int i = 0; i < ocean.BOARD_SIZE; i++){ 
-				if(ocean.isOccupied(row + i, column)){ //ensure ship does not overlap with other ship
+			for(int i = 0; i < length; i++){ 
+				if(ocean.isOccupied(row, column + i)){ //ensure ship does not overlap with other ship
 					return false;
 				}
 			}
@@ -26,8 +26,8 @@ public abstract class Ship {
 			if(row+length > ocean.BOARD_SIZE){ //ensure ship is not out of bounds
 				return false;
 			}
-			for(int j = 0; j < ocean.BOARD_SIZE; j++){ 
-				if(ocean.isOccupied(row, column + j)){ //ensure ship does not overlap with other ship
+			for(int j = 0; j < length; j++){ 
+				if(ocean.isOccupied(row + j, column)){ //ensure ship does not overlap with other ship
 					return false;
 				}
 			}
@@ -36,21 +36,21 @@ public abstract class Ship {
 	}
 
 	/* ”Puts” the ship in the ocean. */
-	void placeShipAt(int row, int column, boolean horizontal, Ocean ocean){
+	public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean){
 		//make sure this placement is legal
-		if(!okToPlaceShip(row, column, horizontal, ocean)){
+		if(!okToPlaceShipAt(row, column, horizontal, ocean)){
 			return;
 		}
 
 		//set the ocean ship[][] array
 		Ship[][] shipArray = ocean.getShipArray();
 		if(horizontal){
-			for(int i = 0; i < this.length; i++){ 
-				shipArray[row + i][column] = this;
-			}
-		} else{
 			for(int j = 0; j < this.length; j++){ 
 				shipArray[row][column + j] = this;
+			}
+		} else{
+			for(int i = 0; i < this.length; i++){ 
+				shipArray[row + i][column] = this;
 			}
 		}
 		ocean.setShipArray(shipArray);
@@ -63,7 +63,7 @@ public abstract class Ship {
 
 	/* If a part of the ship occupies the given row and column, and the ship hasn’t been sunk,
 	 * mark that part of the ship as ”hit” and return true, otherwise return false. */
-	boolean shootAt(int row, int column){
+	public boolean shootAt(int row, int column){
 		if(horizontal){
 			for(int i = 0; i < this.length; i++){ 
 				if(bowRow == row && (bowColumn + i) == column){
@@ -83,7 +83,7 @@ public abstract class Ship {
 	}
 
 	/* Return true if every part of the ship has been hit, false otherwise.*/
-	boolean isSunk(){
+	public boolean isSunk(){
 		for(int i = 0; i < hit.length; i++){
 			if(hit[i] == false){
 				return false;
